@@ -16,101 +16,59 @@ typedef pair<ll, ll> pll;
 #define as(x) (x).begin(), (x).end()
 #define rev(x) (x).rbegin(), (x).rend()
 
+map<string, string> full_form;
+vector<string> courses[5][3];
 
+void preDefine(){
+	full_form["CSE"] = "Computer Science and Engineering";
+	full_form["EEE"] = "Electrical and Electronics Engineering";
+	full_form["ICE"] = "Information and Communication Engineering";
 
-string expandCode(const string &shortCode) {
+	courses[3][1].pb(" ");
+	courses[3][1].pb("SWE");
+	courses[3][1].pb("DBMS");
+	courses[3][1].pb("Web Engineering");
+	courses[3][1].pb("Compiler Design");
+	courses[3][1].pb("Mobile App");
 
-    //to access the course code declaring map
-    std::map<int, string> mymap;
-    mymap.insert(make_pair(41, "Compiler Design, Theory"));
-    mymap.insert(make_pair(42, "Web Engineering, Theory"));
-    mymap.insert(make_pair(43, "Software Engineering, Theory"));
-
-
-
-    string expandedCode;
-    
-    // if (shortCode.size() < 8 || shortCode[3] != '-') {
-    //     return "Invalid code format";
-    // }
-    
-    // "checking department"
-    switch (shortCode[0]) {
-        case 'C':
-            expandedCode += "Computer Science and Engineering";
-            break;
-        case 'M':
-            expandedCode += "Mathematics";
-            break;
-        // Add more cases for other departments if needed.
-        default:
-            return "Invalid department code";
-    }
-    
-    expandedCode += " - ";
-    int idx;
-
-    for(int i=0; i<shortCode.size(); i++){
-        if(shortCode[i]=='-'){
-            idx = i+1;
-        }
-    }
-    
-    // checking year 
-    int year = shortCode[idx] - '0';
-    switch (year) {
-        case 1:
-            expandedCode += "1st Year";
-            break;
-        case 2:
-            expandedCode += "2nd Year";
-            break;
-        case 3:
-            expandedCode += "3rd Year";
-            break;
-        case 4:
-            expandedCode += "4th Year";
-            break;
-        default:
-            return "Invalid year code";
-    }
-    
-    expandedCode += ", ";
-    
-    // checking semester 
-    int semester = shortCode[idx+1] - '0';
-    if (semester < 1 || semester > 8) {
-        return "Invalid semester code";
-    }
-    string cnt;
-    if(semester==1){
-        cnt = "st";
-    }
-    else if(semester==2){
-        cnt = "2nd";
-    }
-    else{
-        cnt = "rd";
-    }
-    expandedCode +=to_string(semester) + cnt +  " Semester";
-    
-    expandedCode += ", ";
-
-
-    // checking course 
-    
-    int courseCode = stoi(shortCode.substr(idx+2));
-
-    expandedCode+=mymap[courseCode];
-    
-    return expandedCode;
+}
+void print(int n){
+	if(n==1){
+		cout << "1st";
+	}
+	else if(n==2){
+		cout << "2nd";
+	}
+	else if(n==3){
+		cout << "3rd";
+	}
+	else{
+		cout << n << "th";
+	}
 }
 
-int main() {
-    string shortCode;
-    // cout << "Enter the short code: ";
-    cin >> shortCode;
-    
-    string expanded = expandCode(shortCode);
-    cout << expanded << endl;
+int main(){
+    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+    preDefine();
+    string s;
+    cin >> s;
+    int n = s.size();
+    string dept = "";
+    for(int i=0; s[i]!='-'; i++){
+    	dept.pb(s[i]);
+    }
+    int year = s[n-4]-'0';
+    int semester = s[n-3]-'0';
+    cout << full_form[dept] << "," ;
+    print(year); cout << " year,";
+    print(semester); cout << " semester,";
+    cout << courses[year][semester][s[n-2]-'0'];
+    if(s[n-1]=='1'){
+    	cout << ", theory";
+    }
+    else{
+    	cout << ", Lab";
+    }
+    cout << endl;
+
 }
