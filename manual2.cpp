@@ -1,87 +1,103 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <set>
-#include <sstream>
-
+#include<bits/stdc++.h>
 using namespace std;
 
-int countVowelsAndConsonants(const string &text) {
-    int vowelCount = 0;
-    int consonantCount = 0;
-    set<char> vowelsFound;
-    set<char> consonantsFound;
+typedef long long int ll;
+typedef long double ld;
+typedef std::vector<int> vi;
+typedef std::vector<ll> vll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
 
-    for (char c : text) {
-        if (isalpha(c)) {
-            if (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U' ||
-                c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
-                vowelCount++;
-                vowelsFound.insert(c);
-            } else {
-                consonantCount++;
-                consonantsFound.insert(c);
-            }
-        }
-    }
+#define mp make_pair
+#define pb push_back
+#define pp pop_back
+#define fi first
+#define se second
+#define as(x) (x).begin(), (x).end()
+#define rev(x) (x).rbegin(), (x).rend()
 
-    cout << "1. Number of vowels: " << vowelCount << endl;
-    cout << "   Number of consonants: " << consonantCount << endl;
+vector<char> vowels = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
 
-    cout << "2. Vowels found: ";
-    for (char vowel : vowelsFound) {
-        cout << vowel << " ";
-    }
-    cout << endl;
-
-    cout << "Consonants found: ";
-    for (char consonant : consonantsFound) {
-        cout << consonant << " ";
-    }
-    cout << endl;
-    
-    return 0;
+bool isLetter(char ch){
+	if(ch>='a' && ch<='z' || ch>='A' && ch<='Z')
+		return true;
+	else
+		return false;
 }
 
-void separateWordsByStartingLetter(const string &text) {
-    vector<string> vowelWords;
-    vector<string> consonantWords;
-    string word;
-    istringstream stream(text);
-
-    while (stream >> word) {
-        char firstLetter = word[0];
-        if (isalpha(firstLetter)) {
-            if (firstLetter == 'A' || firstLetter == 'E' || firstLetter == 'I' ||
-                firstLetter == 'O' || firstLetter == 'U' || firstLetter == 'a' ||
-                firstLetter == 'e' || firstLetter == 'i' || firstLetter == 'o' ||
-                firstLetter == 'u') {
-                vowelWords.push_back(word);
-            } else {
-                consonantWords.push_back(word);
-            }
-        }
-    }
-
-    cout << "3. Words starting with vowels: ";
-    for (string word : vowelWords) {
-        cout << word << " ";
-    }
-    cout << endl;
-
-    cout << "Words starting with consonants: ";
-    for (string word : consonantWords) {
-        cout << word << " ";
-    }
-    cout << endl;
+bool isVowel(char ch){
+	for(auto it:vowels){
+		if(it==ch){
+			return true;
+		}
+	}
+	return false;
 }
 
-int main() {
-    string inputString;
-    getline(cin, inputString);
-    
-    countVowelsAndConsonants(inputString);
-    separateWordsByStartingLetter(inputString);
-    
-    return 0;
+int main(){
+    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+    string s;
+    getline(cin, s);
+    cout << s << endl;
+
+    vector<char> str_v, str_c;
+    int cnt_v=0, cnt_c=0;
+
+    for(int i=0; i<s.size(); i++){
+    	if(isLetter(s[i])){
+    		if(isVowel(s[i])){
+    			cnt_v++;
+    			str_v.pb(s[i]);
+    		}
+    		else{
+    			cnt_c++;
+    			str_c.pb(s[i]);
+    		}
+    	}
+    }
+    cout << "No of vowels: " << cnt_v << endl;
+    cout << "No of Consonant: "<< cnt_c << endl;
+    cout << "vowerls are: ";
+    for(auto it: str_v){
+    	cout << it << " ";
+    }
+    cout << "\nConsonant are : ";
+    for(auto it:str_c){
+    	cout << it << " ";
+    }
+
+    vector<string> word_v, word_c;
+    string tmp;
+    for(int i=0; i<s.size(); i++){
+    	if(isLetter(s[i])){
+    		tmp.pb(s[i]);
+    	}
+    	else if(tmp.size()){
+    		if(isVowel(tmp[0])){
+    			word_v.pb(tmp);
+    		}
+    		else{
+    			word_c.pb(tmp);
+    		}
+    		tmp.clear();
+    	}
+    }
+    if(tmp.size()){
+    	if(isVowel(tmp[0])){
+    		word_v.pb(tmp);
+    	}
+    	else{
+    		word_c.pb(tmp);
+    	}
+    }
+    cout << "words started with vowels are: ";
+    for(auto it:word_v){
+    	cout << it << " ";
+    }
+    cout << "\n words started with Consonant are: ";
+    for(auto it:word_c){
+    	cout << it << " ";
+    }
+    cout << endl;
+
 }
