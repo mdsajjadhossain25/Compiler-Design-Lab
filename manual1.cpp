@@ -16,77 +16,92 @@ typedef pair<ll, ll> pll;
 #define as(x) (x).begin(), (x).end()
 #define rev(x) (x).rbegin(), (x).rend()
 
-char input[1000];
-
-bool is_word_char(char c) {
-    return isalpha(c) || isdigit(c);
+int checkChar(char ch){
+	if(ch>='a' && ch<='z' || ch>='A' && ch<='Z') return 1;
+	if(ch>='0' && ch<='9') return 2;
+	if(ch==' ') return 3;
+	return 4;
 }
 
-
-void categorize_characters() {
-
-    printf("Letter Characters:\n");
-    for (int i = 0; input[i] != '\0'; i++) {
-        if (isalpha(input[i])) {
-            printf("%c ", input[i]);
-        }
-    }
-
-    printf("\nOther Characters:\n");
-    for (int i = 0; input[i] != '\0'; i++) {
-        if (!isalpha(input[i]) && !isspace(input[i]) && !isdigit(input[i])) {
-            printf("%c\n", input[i]);
-        }
-    }
-
-
-    printf("Digits: \n");
-    for (int i = 0; input[i] != '\0'; i++) {
-        if (isdigit(input[i])) {
-            printf("%c\n", input[i]);
-        }
-    }
-
-    printf("words: \n");
-    for (int i = 0; input[i] != '\0'; i++) {  
-        if(input[i]==' ' || input[i]=='.' || input[i]==','){
-            printf("\n");
-            continue;
-        }
-        else{
-            printf("%c", input[i]);
-        }
-
-    }
+int countWords(char s[]){
+	int rslt = 0, temp = 0;
+	int n = strlen(s);
+	for(int i=0; i<n; i++){
+		if(checkChar(s[i])==3){
+			rslt ++;
+		}
+	}
+	rslt++;
+	return rslt;
+}
+int countLetters(char s[]){
+	int cnt = 0;
+	for(int i = 0; i<strlen(s); i++){
+		if(checkChar(s[i])==1){
+			cnt++;
+		}
+	}
+	return cnt;
 }
 
-
-
-
-void solve(){
-
-    int word_letters = 0, digits = 0, others = 0;
-    fgets(input, sizeof(input), stdin);
-
-    for (int i = 0; input[i] != '\0'; i++) {
-        if (isalpha(input[i]))
-            word_letters++;
-        else if (isdigit(input[i]))
-            digits++;
-        else if (!isspace(input[i]))
-            others++;
-    }
-
-    printf("Word Letters: %d\n", word_letters);
-    printf("Digits: %d\n", digits);
-    printf("Other Characters: %d\n", others);
-
-
+int countDigits(char s[]){
+	int cnt = 0;
+	for(int i=0; i<strlen(s); i++){
+		if(checkChar(s[i])==2){
+			cnt++;
+		}
+	}
+	return cnt;
 }
+int countOthers(char s[]){
+	int cnt = 0;
+	for(int i=0; i<strlen(s); i++){
+		if(checkChar(s[i])==4){
+			cnt++;
+		}
+	}
+	return cnt;
+}
+
+void printAllLetters(char s[]){
+	printf("All Letters= ");
+	for(int i=0; i<strlen(s); i++){
+		if(checkChar(s[i])==1){
+			printf("%c ", s[i]);
+		}
+	}
+	printf("\n");
+}
+void printAllDigits(char s[]){
+	printf("All Digits= ");
+	for(int i=0; i<strlen(s); i++){
+		if(checkChar(s[i])==2){
+			printf("%c ", s[i]);
+		}
+	}
+	printf("\n");
+}
+void printAllOthers(char s[]){
+	printf("All others= ");
+	for(int i=0; i<strlen(s); i++){
+		if(checkChar(s[i])==4){
+			printf("%c ", s[i]);
+		}
+	}
+	printf("\n");
+}
+
 
 int main(){
     ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-    solve();
-    categorize_characters();
-}
+    char s[100];
+    scanf("%[^\n]", s);
+    printf("Total Words: %d\n", countWords(s));
+    printf("Total Letters: %d\n", countLetters(s));
+    printf("Totoal digit: %d\n", countDigits(s));
+    printf("Total Others: %d\n", countOthers(s));
 
+    printAllLetters(s);
+    printAllDigits(s);
+    printAllOthers(s);
+}
